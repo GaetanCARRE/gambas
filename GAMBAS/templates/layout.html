@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block page_title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+<body>
+    <header>
+        <div class="col1 center-vertical">
+            <a href="{% url '' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" width="25" height="25">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+                
+            </a>
+        </div>
+        <div class="col2 center-vertical">
+            <img src="{% static 'Gambas.png' %}" alt="logo" width="50" height="50">
+            <h1>GAMBAS</h1>
+        </div>
+        <div class="col3 center-vertical">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" width="25" height="25">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+
+        </div>
+    </header>
+    <hr>
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'ansible:' %}">ANSIBLE</a>
+            </li>
+            <li>
+                <a href="{% url 'logs:' %}">LOGS</a>
+            </li>
+            <li>
+                <a href="{% url 'generation:' %}">CONF GEN</a>
+            </li>
+            <li>
+                <a href="{% url 'ipam:' %}">IPAM</a>
+            </li>
+        </ul>
+    </nav>
+    <hr>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+/* @import url(https://db.onlinewebfonts.com/c/462c788b851dab17ecad90ed8ed3c0bd?family=Sackers+Gothic+W05+Heavy); */
+
+/* styles.css */
+
+
+html {
+    font-family: 'Barlow', sans-serif;
+
+}
+
+body {
+    margin: 0;
+    background-color: #f9f9f9;  
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-areas: "a b c";
+    background-color: white;
+
+}
+
+.col1 {
+    grid-area: a;
+    text-align: left;
+    padding-left: 4rem;
+
+}
+
+.col2 {
+    grid-area: b;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.col3 {
+    grid-area: c;
+    text-align: right;
+    padding-right: 4rem;
+    justify-content: center;
+    align-items: center;
+
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.625rem;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+nav ul li {
+    padding: 0 5rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    font-family: Barlow;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+hr {
+    border-top: 1px solid #dadada;
+    padding: 0;
+    margin: 0;
+}
+
+.center-vertical {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.file_upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.file_upload p {
+    padding-bottom: 0px;
+}

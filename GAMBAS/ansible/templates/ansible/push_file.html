@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block base_title %}Ansible{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'push_file.css' %}">
+{% endblock %}
+{% block content %}
+<form id="upload-form" action="{% url 'ansible:push_file' %}" method="POST" enctype="multipart/form-data">
+    <div id="content">
+        {% csrf_token %}
+        <div id="firewall">
+            <h2>1 - Select Firewalls</h2>
+
+            {% for brand, firewalls in firewalls.items %}
+            <div>
+                <div class="brand-container">
+                    <div class="round">
+                        <input type="checkbox" name="brand[]" value="{{ brand }}" class="brand-checkbox" id="checkbox_{{ brand }}"> 
+                        <label for="checkbox_{{ brand }}"></label>
+                        {{ brand}}
+                    </div>
+                    <div onclick="toggleFirewalls('{{ brand }}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6" height=15px width=15px>
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="fw_per_brand_{{ brand }}" style="display: none;">
+                    {% for firewall in firewalls %}
+                    <div class="fw-checkbox-container">
+                        <div class="fw-checkbox">
+                            <div class="round">
+                                <input type="checkbox" name="firewalls[]" value="{{ firewall }}" id="checkbox_{{ firewall }}"
+                                    class="firewall-checkbox-{{ brand }}">
+                                <label for="checkbox_{{ firewall }}"></label>
+                            </div>
+                           <div class="fw-name">
+                                {{ firewall }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+            {% endfor %}
+
+            <script>
+                // Obtenez toutes les cases de marque
+                var brandCheckboxes = document.querySelectorAll(".brand-checkbox");
+
+                // Ajoutez un gestionnaire d'événements à chaque case de marque
+                brandCheckboxes.forEach(function (checkbox) {
+                    checkbox.addEventListener("change", function () {
+                        // Récupérez la valeur de la marque associée à cette case
+                        var brand = this.value;
+
+                        // Obtenez toutes les cases de pare-feu de cette marque
+                        var firewallCheckboxes = document.querySelectorAll(".firewall-checkbox-" + brand);
+
+                        // Cochez ou décochez les cases de pare-feu en fonction de l'état de la case de la marque
+                        firewallCheckboxes.forEach(function (firewallCheckbox) {
+                            firewallCheckbox.checked = checkbox.checked;
+                        });
+                    });
+                });
+            </script>
+
+            <script>
+                function toggleFirewalls(brand) {
+                    var element = document.getElementById("fw_per_brand_" + brand);
+                    if (element.style.display === "none" || element.style.display === "") {
+                        element.style.display = "block";
+                    } else {
+                        element.style.display = "none";
+                    }
+                }
+            </script>
+
+        </div>
+        <div id="upload">
+            <div id="drop-area-container">
+                <h2>2 - Upload your file</h2>
+                <p class='padding-bottom-50'>File should be txt</p>
+                <div id="drop-area">
+                    <svg height="75px" width="75px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 309.267 309.267" xml:space="preserve"
+                        fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <g>
+                                <path style="fill:#D0994B;"
+                                    d="M280.273,120.972V62.82c0-10.67-8.659-19.329-19.329-19.329H125.64c0,0-18.324-28.994-28.994-28.994 H48.323c-10.67,0-19.329,8.65-19.329,19.329v87.146H280.273z">
+                                </path>
+                                <path style="fill:#E4E7E7;" d="M28.994,72.484h251.279V149.8H28.994V72.484z"></path>
+                                <path style="fill:#3DB39E;"
+                                    d="M251.279,178.794c32.028,0,57.988,25.969,57.988,57.988c0,32.009-25.959,57.988-57.988,57.988 c-32.009,0-57.988-25.978-57.988-57.988C193.292,204.764,219.27,178.794,251.279,178.794z">
+                                </path>
+                                <path style="fill:#FFFFFF;"
+                                    d="M270.609,227.117h-9.665v-9.665c0-5.345-4.32-9.665-9.665-9.665s-9.665,4.32-9.665,9.665v9.665 h-9.665c-5.345,0-9.665,4.32-9.665,9.665c0,5.354,4.32,9.665,9.665,9.665h9.665v9.665c0,5.354,4.32,9.665,9.665,9.665 s9.665-4.31,9.665-9.665v-9.665h9.665c5.345,0,9.665-4.31,9.665-9.665C280.273,231.438,275.953,227.117,270.609,227.117z">
+                                </path>
+                                <path style="fill:#F4B459;"
+                                    d="M179.597,236.783c0-39.586,32.106-71.682,71.682-71.682c19.126,0,36.455,7.538,49.318,19.754 l8.669-73.712c0-10.679-8.659-19.329-19.329-19.329H19.329C8.659,91.814,0,100.463,0,111.143l19.329,164.298 c0,10.67,8.659,19.329,19.329,19.329h170.609C191.32,281.733,179.597,260.644,179.597,236.783z">
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                {% if file is True %}
+                <div class="file_upload">
+                    <svg height="30px" width="30px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 309.267 309.267" xml:space="preserve"
+                        fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <g>
+                                <path style="fill:#E4E7E7;"
+                                    d="M38.658,0h164.23l87.049,86.711v203.227c0,10.679-8.659,19.329-19.329,19.329H38.658 c-10.67,0-19.329-8.65-19.329-19.329V19.329C19.329,8.65,27.989,0,38.658,0z">
+                                </path>
+                                <path style="fill:#C2C5C7;"
+                                    d="M289.658,86.981h-67.372c-10.67,0-19.329-8.659-19.329-19.329V0.193L289.658,86.981z">
+                                </path>
+                                <path style="fill:#CCD0D2;"
+                                    d="M57.988,125.64v19.329H251.28V125.64H57.988z M57.988,183.637H251.28v-19.329H57.988V183.637z M57.988,222.286H251.28v-19.329H57.988V222.286z M57.988,260.944H251.28v-19.32H57.988V260.944z M164.298,86.981H57.988v19.329 h106.311L164.298,86.981L164.298,86.981z M164.298,48.323H57.988v19.329h106.311L164.298,48.323L164.298,48.323z">
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                    <p>{{ file_name }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <input type="file" id="file-input" name="file" style="display: none;">
+
+            <script>
+                const dropArea = document.getElementById('drop-area');
+                const fileInput = document.getElementById('file-input');
+                const uploadForm = document.getElementById('upload-form');
+
+                dropArea.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    dropArea.classList.add('drag-over');
+                });
+
+                dropArea.addEventListener('dragleave', () => {
+                    dropArea.classList.remove('drag-over');
+                });
+
+                dropArea.addEventListener('drop', (event) => {
+                    event.preventDefault();
+                    dropArea.classList.remove('drag-over');
+                    const file = event.dataTransfer.files[0];
+                    fileInput.files = event.dataTransfer.files;
+                    uploadForm.submit();
+                });
+
+                dropArea.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                fileInput.addEventListener('change', () => {
+                    uploadForm.submit();
+                });
+            </script>
+
+        </div>
+
+    </div>
+</form>
+{% endblock %}
